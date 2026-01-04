@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Câu Hỏi</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            margin-top: 80px;
+        }
+        .box {
+            background: white;
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #score {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2 id="question">Câu hỏi</h2>
+    <button onclick="answer(0)" id="a0"></button>
+    <button onclick="answer(1)" id="a1"></button>
+    <button onclick="answer(2)" id="a2"></button>
+    <div id="score">Điểm: 0</div>
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "1 + 1 = ?",
+            a: ["1", "2", "3"],
+            correct: 1
+        },
+        {
+            q: "Mặt trời có màu gì?",
+            a: ["Xanh", "Vàng", "Đen"],
+            correct: 1
+        },
+        {
+            q: "HTML dùng để làm gì?",
+            a: ["Lập trình game", "Tạo trang web", "Chỉnh ảnh"],
+            correct: 1
+        }
+    ];
+
+    let index = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        if (index >= questions.length) {
+            document.querySelector(".box").innerHTML =
+                "<h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
+            return;
+        }
+
+        document.getElementById("question").innerText = questions[index].q;
+        document.getElementById("a0").innerText = questions[index].a[0];
+        document.getElementById("a1").innerText = questions[index].a[1];
+        document.getElementById("a2").innerText = questions[index].a[2];
+        document.getElementById("score").innerText = "Điểm: " + score;
+    }
+
+    function answer(choice) {
+        if (choice === questions[index].correct) {
+            alert("✅ Đúng rồi!");
+            score++;
+        } else {
+            alert("❌ Sai rồi!");
+        }
+        index++;
+        loadQuestion();
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
