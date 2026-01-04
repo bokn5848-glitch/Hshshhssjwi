@@ -57,16 +57,21 @@
             q: "HTML dùng để làm gì?",
             a: ["Lập trình game", "Tạo trang web", "Chỉnh ảnh"],
             correct: 1
+        },
+        {
+    q: "Việt Nam có bao nhiêu tỉnh thành?",
+    a: ["58", "63", "70"],
+    correct: 1
         }
-    ];
-
+  ];
     let index = 0;
     let score = 0;
 
     function loadQuestion() {
         if (index >= questions.length) {
             document.querySelector(".box").innerHTML =
-                "<h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
+                "
+                <h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
             return;
         }
 
