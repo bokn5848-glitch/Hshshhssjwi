@@ -29,16 +29,23 @@
             font-size: 20px;
             margin-top: 10px;
         }
+        #result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="box">
     <h2 id="question">Câu hỏi</h2>
+
     <button onclick="answer(0)" id="a0"></button>
     <button onclick="answer(1)" id="a1"></button>
     <button onclick="answer(2)" id="a2"></button>
+
     <div id="score">Điểm: 0</div>
+    <div id="result"></div>
 </div>
 
 <script>
@@ -71,7 +78,9 @@
     function loadQuestion() {
         if (index >= questions.length) {
             document.querySelector(".box").innerHTML =
-                "<h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
+                "<h2>🎉 Hoàn thành!</h2>" +
+                "<p>Điểm của bạn: " + score + "</p>" +
+                "<button onclick='location.reload()'>Chơi lại</button>";
             return;
         }
 
@@ -80,17 +89,21 @@
         document.getElementById("a1").innerText = questions[index].a[1];
         document.getElementById("a2").innerText = questions[index].a[2];
         document.getElementById("score").innerText = "Điểm: " + score;
+        document.getElementById("result").innerText = "";
     }
 
     function answer(choice) {
+        const result = document.getElementById("result");
+
         if (choice === questions[index].correct) {
-            alert("✅ Đúng rồi!");
+            result.innerText = "✅ Đúng rồi!";
             score++;
         } else {
-            alert("❌ Sai rồi!");
+            result.innerText = "❌ Sai rồi!";
         }
+
         index++;
-        loadQuestion();
+        setTimeout(loadQuestion, 600);
     }
 
     loadQuestion();
