@@ -35,7 +35,7 @@
 
 <div class="box">
     <h2 id="question">Câu hỏi</h2>
-    <button onclick="answer(3)" id="a3"></button>
+    <button onclick="answer(0)" id="a0"></button>
     <button onclick="answer(1)" id="a1"></button>
     <button onclick="answer(2)" id="a2"></button>
     <div id="score">Điểm: 0</div>
@@ -59,19 +59,19 @@
             correct: 1
         },
         {
-    q: "Việt Nam có bao nhiêu tỉnh thành?",
-    a: ["58", "63", "70"],
-    correct: 1
+            q: "Việt Nam có bao nhiêu tỉnh thành?",
+            a: ["58", "63", "70"],
+            correct: 1
         }
-  ];
+    ];
+
     let index = 0;
     let score = 0;
 
     function loadQuestion() {
         if (index >= questions.length) {
             document.querySelector(".box").innerHTML =
-                "
-                <h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
+                "<h2>🎉 Hoàn thành!</h2><p>Điểm của bạn: " + score + "</p>";
             return;
         }
 
