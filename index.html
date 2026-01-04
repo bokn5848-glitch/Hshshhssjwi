@@ -1,113 +1,163 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Game Câu Hỏi</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f2f2f2;
-            text-align: center;
-            margin-top: 80px;
-        }
-        .box {
-            background: white;
-            width: 300px;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        button {
-            display: block;
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 18px;
-            cursor: pointer;
-        }
-        #score {
-            font-size: 20px;
-            margin-top: 10px;
-        }
-        #result {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Game Câu Hỏi</title>
+<style>
+body{
+    font-family: Arial;
+    background:#f2f2f2;
+    text-align:center;
+    margin-top:60px;
+}
+.box{
+    background:white;
+    width:340px;
+    margin:auto;
+    padding:20px;
+    border-radius:10px;
+}
+button{
+    width:100%;
+    margin:8px 0;
+    padding:12px;
+    font-size:18px;
+    cursor:pointer;
+}
+#score{font-size:18px;}
+#result{font-weight:bold;margin-top:8px;}
+</style>
 </head>
 <body>
 
-<div class="box">
-    <h2 id="question">Câu hỏi</h2>
+<div class="box" id="menu">
+    <h2>🎯 Chọn cấp độ</h2>
+    <button onclick="startGame(1)">🟢 Dễ</button>
+    <button onclick="startGame(2)">🟡 Trung bình</button>
+    <button onclick="startGame(3)">🔴 Khó</button>
+</div>
 
+<div class="box" id="game" style="display:none;">
+    <h3 id="question"></h3>
     <button onclick="answer(0)" id="a0"></button>
     <button onclick="answer(1)" id="a1"></button>
     <button onclick="answer(2)" id="a2"></button>
-
-    <div id="score">Điểm: 0</div>
+    <div id="score"></div>
     <div id="result"></div>
 </div>
 
 <script>
-    const questions = [
-        {
-            q: "1 + 1 = ?",
-            a: ["1", "2", "3"],
-            correct: 1
-        },
-        {
-            q: "Mặt trời có màu gì?",
-            a: ["Xanh", "Vàng", "Đen"],
-            correct: 1
-        },
-        {
-            q: "HTML dùng để làm gì?",
-            a: ["Lập trình game", "Tạo trang web", "Chỉnh ảnh"],
-            correct: 1
-        },
-        {
-            q: "Việt Nam có bao nhiêu tỉnh thành?",
-            a: ["58", "63", "70"],
-            correct: 1
-        }
-    ];
+// ===== RANDOM =====
+function shuffle(arr){
+    return arr.sort(()=>Math.random()-0.5);
+}
 
-    let index = 0;
-    let score = 0;
+// ===== CÂU HỎI =====
 
-    function loadQuestion() {
-        if (index >= questions.length) {
-            document.querySelector(".box").innerHTML =
-                "<h2>🎉 Hoàn thành!</h2>" +
-                "<p>Điểm của bạn: " + score + "</p>" +
-                "<button onclick='location.reload()'>Chơi lại</button>";
-            return;
-        }
+// 🟢 DỄ (20)
+const questionsEasy = [
+{q:"2 + 3 = ?",a:["4","5","6"],correct:1},
+{q:"4 + 4 = ?",a:["6","8","9"],correct:1},
+{q:"10 - 5 = ?",a:["3","5","7"],correct:1},
+{q:"3 + 6 = ?",a:["8","9","10"],correct:1},
+{q:"5 + 5 = ?",a:["9","10","11"],correct:1},
+{q:"1 giờ có bao nhiêu phút?",a:["30","60","90"],correct:1},
+{q:"1 ngày có bao nhiêu giờ?",a:["12","24","36"],correct:1},
+{q:"Màu cỏ là?",a:["Xanh","Đỏ","Đen"],correct:0},
+{q:"Mặt trời mọc hướng?",a:["Tây","Đông","Nam"],correct:1},
+{q:"Con mèo kêu?",a:["Meo","Gâu","Ò"],correct:0},
+{q:"Con chó kêu?",a:["Meo","Gâu","Ò"],correct:1},
+{q:"Con cá sống ở?",a:["Đất","Nước","Cây"],correct:1},
+{q:"1 tuần có mấy ngày?",a:["5","7","10"],correct:1},
+{q:"8 + 1 = ?",a:["9","10","11"],correct:0},
+{q:"6 + 2 = ?",a:["6","8","9"],correct:1},
+{q:"9 - 3 = ?",a:["5","6","7"],correct:1},
+{q:"7 + 1 = ?",a:["7","8","9"],correct:1},
+{q:"2 + 2 = ?",a:["3","4","5"],correct:1},
+{q:"Màu chuối?",a:["Đỏ","Vàng","Xanh"],correct:1},
+{q:"Bàn dùng để?",a:["Ngồi","Ăn/Học","Ngủ"],correct:1}
+];
 
-        document.getElementById("question").innerText = questions[index].q;
-        document.getElementById("a0").innerText = questions[index].a[0];
-        document.getElementById("a1").innerText = questions[index].a[1];
-        document.getElementById("a2").innerText = questions[index].a[2];
-        document.getElementById("score").innerText = "Điểm: " + score;
-        document.getElementById("result").innerText = "";
-    }
+// 🟡 TRUNG BÌNH (15)
+const questionsMedium = [
+{q:"6 x 4 = ?",a:["20","24","28"],correct:1},
+{q:"15 - 7 = ?",a:["6","8","10"],correct:1},
+{q:"3 x 5 = ?",a:["15","10","20"],correct:0},
+{q:"12 : 3 = ?",a:["3","4","5"],correct:1},
+{q:"2 + 3 x 4 = ?",a:["20","14","24"],correct:1},
+{q:"10 x 5 = ?",a:["50","40","60"],correct:0},
+{q:"18 : 2 = ?",a:["7","8","9"],correct:2},
+{q:"9 x 3 = ?",a:["18","27","21"],correct:1},
+{q:"Hình vuông có mấy cạnh?",a:["3","4","5"],correct:1},
+{q:"1 năm có mấy tháng?",a:["10","11","12"],correct:2},
+{q:"Thủ đô Việt Nam?",a:["Huế","Hà Nội","Đà Nẵng"],correct:1},
+{q:"Số chẵn là?",a:["7","9","10"],correct:2},
+{q:"CSS dùng để?",a:["Trang trí","Lưu","Chạy"],correct:0},
+{q:"HTML dùng để?",a:["Game","Tạo web","AI"],correct:1},
+{q:"Internet dùng để?",a:["Nấu","Kết nối","Ngủ"],correct:1}
+];
 
-    function answer(choice) {
-        const result = document.getElementById("result");
+// 🔴 KHÓ (15)
+const questionsHard = [
+{q:"12 x 7 = ?",a:["84","72","96"],correct:0},
+{q:"48 : 6 = ?",a:["6","7","8"],correct:2},
+{q:"5² = ?",a:["10","20","25"],correct:2},
+{q:"3³ = ?",a:["6","9","27"],correct:2},
+{q:"2 x (5 + 3) = ?",a:["16","13","10"],correct:0},
+{q:"25% của 200 = ?",a:["25","50","75"],correct:1},
+{q:"(10 - 4) x 3 = ?",a:["18","20","14"],correct:0},
+{q:"100 : (5 x 4) = ?",a:["4","5","6"],correct:0},
+{q:"7 x 8 - 10 = ?",a:["46","48","56"],correct:0},
+{q:"9² - 20 = ?",a:["61","81","41"],correct:0},
+{q:"2³ x 5 = ?",a:["40","20","10"],correct:1},
+{q:"(6 + 4)² = ?",a:["100","36","20"],correct:0},
+{q:"50% của 60 = ?",a:["20","30","40"],correct:1},
+{q:"15 x 4 + 10 = ?",a:["70","60","50"],correct:0},
+{q:"81 : 9 + 5 = ?",a:["14","12","10"],correct:0}
+];
 
-        if (choice === questions[index].correct) {
-            result.innerText = "✅ Đúng rồi!";
-            score++;
-        } else {
-            result.innerText = "❌ Sai rồi!";
-        }
+// ===== GAME LOGIC =====
+let questions=[],index=0,score=0;
+let shuffled=[],correctIndex=0;
 
-        index++;
-        setTimeout(loadQuestion, 600);
-    }
+function startGame(level){
+document.getElementById("menu").style.display="none";
+document.getElementById("game").style.display="block";
 
-    loadQuestion();
+let src = level===1?questionsEasy:level===2?questionsMedium:questionsHard;
+questions = shuffle([...src]);
+index=0;score=0;
+loadQuestion();
+}
+
+function loadQuestion(){
+if(index>=questions.length){
+document.getElementById("game").innerHTML=
+`<h2>🎉 Hoàn thành!</h2>
+<p>Điểm: ${score}/${questions.length}</p>
+<button onclick="location.reload()">Chơi lại</button>`;
+return;
+}
+
+let q=questions[index];
+document.getElementById("question").innerText=q.q;
+shuffled = shuffle(q.a.map((t,i)=>({t,i})));
+correctIndex = shuffled.findIndex(x=>x.i===q.correct);
+["a0","a1","a2"].forEach((id,i)=>document.getElementById(id).innerText=shuffled[i].t);
+document.getElementById("score").innerText="Điểm: "+score;
+document.getElementById("result").innerText="";
+}
+
+function answer(c){
+if(c===correctIndex){
+score++;
+document.getElementById("result").innerText="✅ Đúng";
+}else{
+document.getElementById("result").innerText="❌ Sai";
+}
+index++;
+setTimeout(loadQuestion,500);
+}
 </script>
-
 </body>
 </html>
